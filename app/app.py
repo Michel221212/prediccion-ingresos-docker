@@ -1,18 +1,14 @@
+#app.py
 import streamlit as st
 import requests
 
-# URL de la API
-url = 'http://0.0.0.0:8501/predict'
-API_KEY_NAME = "X-API-Key"
+# URL de la API (reemplaza con la URL pública de tu API en Railway)
+url = 'URL_DE_TU_API_EN_RAILWAY/predict'  # Ejemplo: https://mi-api-production.up.railway.app/predict
 
-# Obtener la clave API directamente (¡NO RECOMENDADO PARA PRODUCCIÓN!)
-# En producción, usar Streamlit Secrets o un almacén de secretos externo.
-API_KEY = "clave_segura_1"  # Reemplaza con una clave válida
-
-# Función para realizar la solicitud POST a la API (corregida)
-def realizar_solicitud_post(url, data, headers):
+# Función para realizar la solicitud POST a la API
+def realizar_solicitud_post(url, data):  # Eliminada la necesidad de headers
     try:
-        response = requests.post(url, json=data, headers=headers)
+        response = requests.post(url, json=data)
         if response.status_code == 200:
             return True, response.json()
         else:
@@ -59,12 +55,10 @@ with st.form("input_form"):
             'hours-per-week': hours_per_week,
             'native-country': native_country
         }
-        # Añade la clave API a los headers (obtenida de forma segura)
-        headers = {API_KEY_NAME: API_KEY}
-        exito, respuesta = realizar_solicitud_post(url, data, headers=headers)  # Llamada correcta
+        # Llamada a la API
+        exito, respuesta = realizar_solicitud_post(url, data) # Elimina headers
 
         if exito:
-            # Mostrar la predicción
             st.success(f"Predicción: {respuesta['prediction']}")
         else:
             st.error(f"Error en la solicitud: {respuesta}")
