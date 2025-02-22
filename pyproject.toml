@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "prediccion-ingresos-docker"
+version = "0.0.0"
+description = "Proyecto de Gerencia de Proyectos para Ciencia de Datos"
+authors = ["izainea <cizaineam@gmail.com>"]  # Corregido: Formato de cadena simple
+license = "MIT"  # Corregido: Solo el nombre de la licencia
+
+[tool.poetry.dependencies]
+python = "^3.11"  # Movido aquí y formato corregido
+seaborn = "^0.13.2"  # Formato simplificado (se asume >=)
+pandas = "^2.2.3"
+scikit-learn = "^1.6.1"
+fastapi = "^0.115.8"
+uvicorn = "^0.34.0"
+ucimlrepo = "^0.0.7"
+streamlit = "^1.42.0"
+numpy = "^2.2.3"
+requests = "^2.28.0"
+joblib = "^1.1.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
