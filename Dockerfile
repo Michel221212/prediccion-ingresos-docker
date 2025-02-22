@@ -1,22 +1,29 @@
-# Usa una imagen base con Python 3.11
 FROM python:3.11-slim
 
-# Establece el directorio de trabajo dentro del contenedor
-WORKDIR /app
+# Usamos el directorio actual como directorio de trabajo
+WORKDIR /main
 
-# Instala poetry
-RUN pip install poetry
+# Instalar dependencias del sistema
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instalar Poetry 2.1.1
+RUN pip install poetry==1.8.2
+
+# Agregar Poetry al PATH
+ENV PATH="/root/.local/bin:$PATH"
 
 # Configurar Poetry para no crear un entorno virtual
 RUN poetry config virtualenvs.create false
 
-# Copia los archivos de configuración de Poetry
+# Copiar los archivos de configuración de Poetry
 COPY pyproject.toml poetry.lock ./
 
-# Instala dependencias
-RUN poetry lock && poetry install --no-dev --no-interaction
+# Instalar dependencias
+RUN poetry lock && poetry install
 
-# Copia el resto de la aplicación
+# Copiar el resto de la aplicación
 COPY . .
 
 # Exponer el puerto de Streamlit
